@@ -93,9 +93,8 @@ export class ChartBase implements AfterViewInit, OnDestroy {
     render(
         data,
         need2GroupData = false,
-        isHorizontal = false
+        isHorizontal   = false
     ): void {
-        // if (!_data || 0 === _data.data.length) return;
         if (!data) {
             return;
         }

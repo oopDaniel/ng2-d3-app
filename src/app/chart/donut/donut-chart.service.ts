@@ -8,8 +8,8 @@ import { Utility }          from './../../shared/utility';
 @Injectable()
 export class DonutChartService extends ChartService<DonutChartModel> {
 
-    getMockData(): DonutChartModel {
-        let data: DonutChartModel = Utility.clone(MOCK_DATA);
+    getMockData(mockData = MOCK_DATA): DonutChartModel {
+        let data: DonutChartModel = Utility.clone(mockData);
 
         let total = this.getRandInt(9, 2);
         for (let i = 0; i < total; ++i) {

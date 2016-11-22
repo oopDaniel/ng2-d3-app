@@ -1,0 +1,37 @@
+@import './../../shared/colors.scss';
+@import './../../shared/mixins.scss';
+
+.compared-donut-chart {
+    .arc {
+        &.theme-up {
+            @include svg-color($themeUp);
+        }
+        &.theme-down {
+            @include svg-color($themeDown);
+        }
+        &.theme-base {
+            fill: $themeBase;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    .text {
+        .center{
+            transform: translate(0, 3px);
+            font-size: 3.5em;
+            // font-family: Roboto;
+            font-weight: lighter;
+            fill: $text-default;
+            text-anchor: middle;
+        }
+        .total {
+            font-size: 1.2em;
+            // font-family: Roboto;
+            font-weight: lighter;
+            fill: $text-detail;
+            text-anchor: middle;
+        }
+    }
+
+}
