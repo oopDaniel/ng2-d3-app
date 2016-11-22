@@ -1,20 +1,27 @@
-import { Component, ElementRef, Inject, OpaqueToken } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    Inject,
+    OpaqueToken,
+    ViewEncapsulation
+} from '@angular/core';
 
-import * as d3 from 'd3';
-import { ChartBase } from './../chart-base';
-import { DonutChartModel } from './donut-chart.model';
-import { DonutChartService } from './donut-chart.service';
-import { Utility } from './../../shared/utility';
-
-let ClassName = new OpaqueToken('DonutChart');
+import * as d3                  from 'd3';
+import { ChartBase }            from './../chart-base';
+import { DonutChartModel }      from './donut-chart.model';
+import { DonutChartService }    from './donut-chart.service';
+import { Utility }              from './../../shared/utility';
 
 
+const ClassName = new OpaqueToken('DonutChart');
 
 
 @Component({
-    template:   '',
-    selector:   'app-donut-chart',
-    providers:  [
+    encapsulation:  ViewEncapsulation.None,
+    template:       '',
+    selector:       'app-donut-chart',
+    styleUrls:      ['donut-chart.component.scss'],
+    providers:      [
         { provide: ClassName, useValue: 'donut-chart' }
     ]
 })

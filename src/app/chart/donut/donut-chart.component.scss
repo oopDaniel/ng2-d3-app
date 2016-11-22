@@ -1,0 +1,22 @@
+@import './../../shared/colors.scss';
+@import './../../shared/mixins.scss';
+
+.donut-chart {
+    .arc {
+        &.theme1 {
+            @include svg-color($theme1);
+        }
+        &.theme2 {
+            @include svg-color($theme2);
+        }
+        &.theme3 {
+            @include svg-color($theme3);
+        }
+        &.theme4 {
+            @include svg-color($theme4);
+        }
+        &.theme5 {
+            @include svg-color($theme5);
+        }
+    }
+}

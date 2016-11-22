@@ -328,7 +328,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
 
             /// Filter the duplicateㄝlater will map the theme colorㄝ
             let themeColorEntity = '' !== this.groupAxisTarget
-                ? d[`${this.groupAxisTarget}-format`]
+                ? d[`${this.groupAxisTarget}Format`]
                 : d.name;
             this.dataSet.add(themeColorEntity);
 
@@ -462,7 +462,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
 
     // Get the index to determine the theme color
     protected getThemeIndex(data: any): number {
-        let name = this.isStringLabel[this.groupAxisTarget] ? data[`${this.groupAxisTarget}-format`] : data.name;
+        let name = this.isStringLabel[this.groupAxisTarget] ? data[`${this.groupAxisTarget}Format`] : data.name;
         return Array.from(this.dataSet).indexOf(name) + 1;
     }
 

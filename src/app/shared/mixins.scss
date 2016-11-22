@@ -1,0 +1,8 @@
+
+@mixin svg-color($color) {
+  fill: $color;
+  &:hover {
+      fill: darken($color, 10%);
+      cursor: pointer;
+  }
+}

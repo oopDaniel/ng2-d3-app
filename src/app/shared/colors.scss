@@ -1,0 +1,151 @@
+
+//******************************************
+//               Theme Colors
+//******************************************
+
+$themeUp: #52bd7e;
+$themeDown: #ff8282;
+$themeBase: #e0e0e4;
+
+$theme1: #ff9b2d;
+$theme2: #ffd133;
+$theme3: #dde875;
+$theme4: #99e16a;
+$theme5: #5dd1a4;
+$theme6: #7591d0;
+$theme7: #76a7f8;
+$theme8: #ee78ad;
+$theme9: #f779c4;
+$theme10: #f87979;
+$theme11: steelblue;
+$theme12: gold;
+$theme13: darkorange;
+
+
+
+//******************************************
+//                 Sidebar
+//******************************************
+
+// $sidebar-theme: #49556D;
+// $sidebar-theme: rgb(70,82,104);
+$sidebar-theme: #6a7f8e;
+$sidebar-options: #2A3342;
+
+// ----------       Calendar        ----------
+$calendar-theme: #455268;
+$calendar-separator: #3C475A;
+$calendar-title: #fff;
+$calendar-text-idle: #b5c3d6;
+$calendar-title-week: #fff;
+$calendar-date-selectedInterval: rgba(34, 193, 255, 0.4);
+$calendar-active: #526176;
+$calendar-date-selectedTarget: #1FC2F9;
+
+
+//******************************************
+//                  Button
+//******************************************
+
+$btn-text: #fff;
+
+$btn-default: #fff;
+$btn-default-border: #ccc;
+$btn-default-text: #333;
+$btn-default-hover: #e6e6e6;
+$btn-default-disabled: #999;
+$btn-default-border-hover: #adadad;
+
+$btn-primary: #337ab7;
+$btn-primary-border: #2e6da4;
+$btn-primary-text: $btn-text;
+$btn-primary-hover: #286090;
+$btn-primary-border-hover: #204d74;
+
+$btn-success: #52BD7E;
+$btn-success-border: #4cae4c;
+$btn-success-text: $btn-text;
+$btn-success-hover: #39A465;
+$btn-success-border-hover: #398439;
+
+$btn-info: #5bc0de;
+$btn-info-border: #46b8da;
+$btn-info-text: $btn-text;
+$btn-info-hover: #31b0d5;
+$btn-info-border-hover: #269abc;
+
+$btn-warning: #f0ad4e;
+$btn-warning-border: #eea236;
+$btn-warning-text: $btn-text;
+$btn-warning-hover: #ec971f;
+$btn-warning-border-hover: #d58512;
+
+$btn-danger: #d9534f;
+$btn-danger-border: #d43f3a;
+$btn-danger-text: $btn-text;
+$btn-danger-hover: #c9302c;
+$btn-danger-border-hover: #ac2925;
+
+
+
+//******************************************
+//                Sidebar
+//******************************************
+
+$sidebar-background: #343c4f;
+$sidebar-text: lighten(#c3d0e0, 20%);
+$sidebar-label: #676F82;
+$sidebar-label-text: #334455;
+$sidebar-label-before: #343c4f;
+
+
+
+
+//******************************************
+//                 Chart
+//******************************************
+
+
+// ----------       Bar       ----------
+$barColor: #6096e4;
+
+// ----------       Text       ----------
+$text-default: #2b333e;
+$text-light: #4a525b;
+$text-detail: #6a7f8e;
+
+// ----------       Axis       ----------
+$axis-x: #2b333e;
+$axis-y: #6a7f8e;
+
+// ----------       Grid       ----------
+$grid-grey: #ecedf1;
+
+
+
+
+
+//******************************************
+//                 Form
+//******************************************
+// $form-group-border: #b6bdbf;     // SKY
+$form-group-border: #C7C8C9;
+// $input-bg: #E3EBEC;
+$input-placeholder-color: #999 !default;
+
+$input-bg: #F8F8FA;
+$input-border: #F2F2F2;
+$input-border-focus: #66afe9 !default;
+
+$file-placeholder: #999;
+$file-placeholder-after: darken($text-default, 5%);
+$file-name: steelblue;
+
+$error: red;
+
+$removeBtn: #9DB2C1;
+$removeBtn-hover: #374C5B;
+
+$searchbar: #ECEFF4;
+$searchbar-border: #C7C8C9;
+
