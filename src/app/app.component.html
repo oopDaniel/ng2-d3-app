@@ -1,6 +1,11 @@
 <h1>
   {{title}}
-  <section style="width:600px;height:400px">
-    <app-donut-chart></app-donut-chart>
-  </section>
 </h1>
+
+<section style="width:600px;height:400px">
+  <app-donut-chart></app-donut-chart>
+</section>
+
+<button (click)="next()">Next One</button>
+<button (click)="disconnect()">Stop!</button>
+<button (click)="connect()">Restore Connection</button>

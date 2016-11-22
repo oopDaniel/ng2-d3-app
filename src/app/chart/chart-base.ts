@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs/Rx';
 import {
     ChartAxisPosition,
     ChartBoundaryItem,
-    ChartBaseModel
+    ChartBaseModel,
 } from './chart-base.model';
 import {
     MIN_HEIGHT,
@@ -297,7 +297,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
             this.setTickStep();
             this.showAxis();
         } else {
-
+            /// TODO: ticks according to data
         }
     }
 

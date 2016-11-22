@@ -1,9 +1,62 @@
-import { Injectable }   from '@angular/core';
-import { Utility }      from './../shared/utility';
+import { Injectable }       from '@angular/core';
+
+import { Utility }          from './../shared/utility';
+import { DATA_INTERVAL }    from './../../definations/const';
+import {
+    Observable,
+    BehaviorSubject,
+} from 'rxjs/Rx';
+
 
 @Injectable()
 export abstract class ChartService<T> {
-    public abstract getData();
+
+    private dataStream       = new BehaviorSubject<any>(this.getMockData());
+    private connectionStream = new BehaviorSubject<boolean>(true);
+    private data$            = this.dataStream.asObservable();
+    private connection$      = this.connectionStream.asObservable();
+    private dataGenerator$   = Observable.create( observer => {
+        setInterval( () => observer.next(this.getMockData()), DATA_INTERVAL );
+    });
+
+    // isValid = true;
+    public getData(): Observable<any> {
+        let autoDataSource = this.dataGenerator$
+            .combineLatest(this.connection$, (data, isConnected) => {
+                data.data.length = isConnected
+                    ? data.data.length
+                    : 0;
+                return data;
+            });
+
+        return Observable.merge(autoDataSource, this.data$);
+
+        // return dataSource.switchMap( (v, i) => {
+        //     v.data.length = this.isValid
+        //             ? v.data.length
+        //             : 0;
+        //     return Observable.of(v)
+        // })
+    }
+
+    public setData(data: any): void {
+        this.dataStream.next(data);
+    }
+
+    public connect(): void {
+        this.connectionStream.next(true);
+    }
+
+    public disconnect(): void {
+        this.connectionStream.next(false);
+    }
+
+    public nextData(): void {
+        this.setData(this.getMockData());
+    }
+
+    public abstract getMockData(): any;
+
 
     /**
      *  Produce mock data

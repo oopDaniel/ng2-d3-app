@@ -15,12 +15,10 @@ let ClassName = new OpaqueToken('DonutChart');
     template:   '',
     selector:   'app-donut-chart',
     providers:  [
-        DonutChartService,
         { provide: ClassName, useValue: 'donut-chart' }
     ]
 })
 export class DonutChartComponent extends ChartBase {
-
     protected arc;               // D3 path generetor
     protected pie: Function;     // D3 data formator
     protected center;            // Center of circle
