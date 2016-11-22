@@ -111,17 +111,17 @@ export class DonutChartComponent extends ChartBase {
         this.hasDonutCanvasInited = true;
     }
 
-    protected showDonut(data, pieParams): void {
+    protected showDonut(data, pieParams, sortCB = null): void {
         let feature  = this.isPieChart ? this.base['pie-feature'] : this.base.feature;
         let padAngle = this.isPieChart ? pieParams.padAngle : 0;
         this.color   = d3.scale.category20();
 
         this.pie = d3.layout.pie()
-            .value(d => d['yData'])
+            .value( (d) => d['yData'] )
             .startAngle(feature.angle && feature.angle.start || 0 )
             .endAngle(  feature.angle && feature.angle.total || 2 * Math.PI )
             .padAngle(padAngle)
-            .sort(null);    // Default not sorting
+            .sort(sortCB);    // Default not sorting
 
         this.arc = d3.svg.arc()
             .outerRadius(this.outerRadius)
@@ -139,15 +139,13 @@ export class DonutChartComponent extends ChartBase {
         this.applyThemeColor();
 
         if (this.hasAnimate(feature)) {
-            let duration =
-                feature.animation && feature.animation.duration || 100;
             this.nextTick( () => {
                 this.update.exit().remove();
                 this.update
                     .transition()
-                    .duration(duration)
+                    .duration(feature.animation.duration || 100)
                     .attrTween('d', (args) => this.arcTween(args));
-                    // .attrTween('d', (args) => arcTween.apply(me, [args]))  // ES5 case
+                    // .attrTween('d', (args) => arcTween.apply(self, [args]))  // ES5 case
             });
         }
         // --------------    ES5 case     ---------------
@@ -166,24 +164,18 @@ export class DonutChartComponent extends ChartBase {
         this.enter
             .append('path')
             .attr('d', this.arc)
-            .attr('fill', d => this.color(d.value) )
-            .each( d => this.beginData = d);
+            .attr('fill', (d) => this.color(d.value) )
+            .each( (d) => this.beginData = d);
     }
 
     protected applyThemeColor(): void {
         this.update.attr('class', (d, i) => `arc theme${ i + 1 }`);
     }
 
-    /// Helper function for subclasses to get summary text
-    protected getSummary(data): number {
-        return data.map( (d) => d.yData)
-            .reduce( (a, b) => a + b, 0);
-    }
-
     protected arcTween(end) {
         let i = d3.interpolate(this.beginData, end);
         this.beginData = i(0);
-        return t => this.arc(i(t));
+        return (t) => this.arc(i(t));
     }
 
 }

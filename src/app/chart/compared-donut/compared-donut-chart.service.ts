@@ -20,7 +20,7 @@ export class ComparedDonutChartService extends DonutChartService {
         };
         data.data[+!index] = {
             yData: this.getRandInt(300)
-        }
+        };
 
         return data;
     }

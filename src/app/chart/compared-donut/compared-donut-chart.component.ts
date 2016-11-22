@@ -13,12 +13,15 @@ import { ComparedDonutChartService }    from './compared-donut-chart.service';
 @Component({
     encapsulation: ViewEncapsulation.None,
     template: '',
-    selector: 'compared-donut-chart',
+    selector: 'app-compared-donut-chart',
     providers: [ComparedDonutChartService],
     styleUrls: ['./compared-donut-chart.component.scss']
 })
 export class ComparedDonutChartComponent extends DonutChartComponent {
-    // UI Requirement: if more than threshold, render it with red
+    /**
+     *  UI Requirement: 
+     *    if data more than threshold, render it with red
+     **/
     protected isOverThreshold:     boolean = false;
     private   centerStr:           string;
     private   totalStr:            string;
@@ -31,95 +34,65 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
         super(service, elementRef, 'compared-donut-chart');
     }
 
-    render(_data): void {
-        if (!_data || 0 === _data.data.length) return;
-        // UI Requirement: Count only first two data
-        if  (_data.data.length > 0) { _data.data.length = 2; }
+    render(data): void {
+        if (!data || 0 === data.data.length) {
+            return;
+        }
 
-        this._initParams(_data);
-        super.render(_data);
+        if  (data.data.length > 2) {
+            data.data.length = 2;
+        }
 
-        this._showText(this.centerStr, this.totalStr);
+        this.initParams(data);
+        super.render(data);
+
+        this.showText(this.centerStr, this.totalStr);
     }
 
 
-//-------------        Protected           -------------
+// -------------        Protected           -------------
 
 
-    // Overwrite for sorting
+    // Override: add sorting and empty check
     protected showDonut(data): void {
-        let feature          = this.base.feature,
-            thickness        = feature.thickness || this.outerRadius,
-            innerRadius      = this.outerRadius - feature.thickness;
-        let isEmptyDonut     = 0 === data.reduce( (a,b) => a['yData'] + b['yData'] ); /// Sum of (y-data)s
-        if (isEmptyDonut)   this._makeMockData(data);
+        let isEmptyDonut = 0 === this.getSum(data);
 
-
-        if (innerRadius < 0 ) { throw `Error: assigned thickness too small, outer:${this.outerRadius}, inner:${innerRadius}`; }
-
-        this.pie = d3.layout.pie()
-            .value(d => d['yData'])
-            .startAngle(feature.angle.start || 0 )
-            .endAngle(  feature.angle.total || 2 * Math.PI )
-            .sort((a, b) => this._sortArc(a,b));
-
-        this.arc = d3.svg.arc()
-            .outerRadius(this.outerRadius)
-            .innerRadius(innerRadius);
-
-        if (!this.hasAnimate(feature)) {
-            this.offsetCanvas.selectAll('.arc').remove()
+        if (isEmptyDonut) {
+            this.makePaddingMockData(data);
         }
 
-        this.update = this.offsetCanvas.selectAll('.arc')
-            .data(this.pie(data));
-        this.enter = this.update.enter();
+        let sortCallback = (a, b) => this.sortArc(a, b);
 
-        this.drawDonut()
+        super.showDonut(data, null, sortCallback);
         this.applyThemeColor(isEmptyDonut);
-
-        if (this.hasAnimate(feature)) {
-            this.nextTick( () => {
-                this.update.exit().remove();
-                this.update
-                    .transition()
-                    .duration(feature.animation.duration || 100)
-                    .attrTween('d', (args) => this.arcTween(args))
-            });
-        }
     }
 
-    // Overwrite for click event
+    // Override: add click event
     protected drawDonut(): void {
-        let me = this;
         this.enter
             .append('path')
             .attr('d', this.arc)
-            .each( d => this.beginData = d)
-            ///////  Not to open currently
-            // .on('click', d => this._showText(d.value));
+            .each( (d) => this.beginData = d)
+            .on('click', (d) => this.showText(d.value));
     }
 
-    // Overwrite for dual theme color assignment
-    protected applyThemeColor(isEmptyDonut: boolean = false): void {
+    // Override: dual theme color assignment
+    protected applyThemeColor(isEmptyDonut = false): void {
         this.update
-            .attr('class', d =>
-                isEmptyDonut ?
-                    'arc theme-unknown'
-                    :
-                    !d.data.name ?
-                        `arc theme-base`
-                        :
-                        this.isOverThreshold ?
-                        `arc theme-down`
-                        :
-                        `arc theme-up`
+            .attr('class', (d) =>
+                isEmptyDonut
+                    ? 'arc theme-unknown'
+                    : !d.data.name
+                        ? 'arc theme-base'
+                        : this.isOverThreshold
+                            ? 'arc theme-down'
+                            : 'arc theme-up'
             );
     }
 
-    protected _showText(
+    protected showText(
         centerStr: string = this.centerStr,
-        totalStr: string = this.totalStr) {
+        totalStr: string  = this.totalStr): void {
 
         let feature             = this.base.feature;
         let hasAnimate: boolean = this.hasAnimate(feature);
@@ -130,12 +103,9 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
         this.offsetCanvas.selectAll('.text').remove();
         let textGroup = this.offsetCanvas.append('g')
             .attr('class', `text`);
-            // .attr('transform', `translate(${this.center.x}, ${this.center.y})`)
         let centerText = textGroup
             .append('text')
             .attr('class', 'center')
-            // .attr('transform',
-            //   `translate (${this.center.x}, ${this.center.y})`)
             .text(appendedCenterStr);
         let totalText = textGroup
             .append('text')
@@ -144,13 +114,12 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
             .text(`Total: ${appendedTotalStr}`);
 
         if (hasAnimate) {
-            let me = this;
             let duration = feature.animation.duration;
             centerText
                 .transition()
                 .ease('quad-out')
                 .duration(duration)
-                .tween('text', d => this._textTween(centerStr, centerText));
+                .tween('text', (d) => this.textTween(centerStr, centerText));
 
             // Won't trigger by click event
             if (!this.hasTotalTextTweened) {
@@ -158,7 +127,7 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
                     .transition()
                     .ease('quad-out')
                     .duration(duration)
-                    .tween('text', d => this._textTween(totalStr, totalText, true));
+                    .tween('text', (d) => this.textTween(totalStr, totalText, true));
                 this.hasTotalTextTweened = true;
             }
 
@@ -167,39 +136,46 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
     }
 
 
-//-------------          Private             -------------
+// -------------          Private             -------------
 
-    private _makeMockData(data): void { data.forEach( d => d.yData = 1 ); }
+    private makePaddingMockData(data): void {
+        data.forEach( d => d.yData = 1 );
+    }
 
-    private _initParams(_data): void {
-        this.centerStr = this.totalStr = ''
-        if (0 === _data.data.length) return;
+    private initParams(data): void {
+        this.centerStr = this.totalStr = '';
+        if (0 === data.data.length) {
+            return;
+        }
 
-        let threshold = _data.base.feature.threshold || 5;
-        let nameArr   = _data.data.map(d => d.name);
+        let threshold = data.base.feature && data.base.feature.threshold || 5;
+        let names     = data.data.map( (d) => d.name );
 
-        // Match the only data not equal to undefined / null / ''
-        let targetIndex = nameArr.indexOf(nameArr.filter(d => d)[0]);
-        let target = _data.data[targetIndex].yData;
-        let total  = this.getSummary(_data.data);
-        this.isOverThreshold = (target / total) * 100  > threshold;
-        this.centerStr = `${target}`;
-        this.totalStr = `${total}`;
+        // Match the only data named not equal to undefined / null / ''
+        let index                = names.indexOf(names.filter( (d) => d )[0]);
+        let target               = data.data[index].yData;
+        let total                = this.getSum(data.data);
+        this.isOverThreshold     = (target / total) * 100  > threshold;
+        this.centerStr           = String(target);
+        this.totalStr            = String(total);
         this.hasTotalTextTweened = false;
     }
 
     // Remove the decimals and separated by comma
-    private _eliminateDecimal(num: number): string {
-        return d3.format(",.0f")(num);
+    private eliminateDecimal(num: number): string {
+        return d3.format(',.0f')(num);
     }
     // Always put the data that has name as first element clockwise
-    private _sortArc(a, b): number { return !a.name ? 1 : 0; }
+    private sortArc(a, b): number { return !a.name ? 1 : 0; }
 
-    private _textTween(end: string, target, isTotalNeedToAppend: boolean = false) {
+    private textTween(end: string, target, isTotalNeedToAppend = false) {
         let appendix = isTotalNeedToAppend ? 'Total: ' : '';
         let i = d3.interpolate(0, +end);
-        return t => target.text(appendix + this._eliminateDecimal(i(t)));
+        return t => target.text(appendix + this.eliminateDecimal(i(t)));
     }
 
+    private getSum(data: any[]): number {
+        return data.map( (d) => d.yData)
+            .reduce( (a, b) => a + b, 0);
+    }
 }
-
