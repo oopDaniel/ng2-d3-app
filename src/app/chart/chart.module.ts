@@ -11,19 +11,27 @@ import {
     ComparedDonutChartService,
 } from './compared-donut/compared-donut-chart';
 
+import {
+    PieChartComponent,
+    PieChartService,
+} from './pie/pie-chart';
+
 @NgModule({
     imports: [CommonModule],
     declarations: [
         DonutChartComponent,
         ComparedDonutChartComponent,
+        PieChartComponent
     ],
     exports: [
         DonutChartComponent,
         ComparedDonutChartComponent,
+        PieChartComponent,
     ],
     providers: [
         DonutChartService,
         ComparedDonutChartService,
+        PieChartService,
     ]
 })
 export class ChartModule { }

@@ -91,7 +91,7 @@ export class DonutChartComponent extends ChartBase {
         /// Default as pie chart => innerRadius = 0
         let thickness = this.isPieChart
             ? this.outerRadius
-            : this.base.feature.thickness || this.outerRadius;
+            : this.base.feature && this.base.feature.thickness || this.outerRadius;
 
         let isValidInnerRadius = this.outerRadius - thickness >= 0;
         if (!isValidInnerRadius) {
@@ -112,7 +112,7 @@ export class DonutChartComponent extends ChartBase {
     }
 
     protected showDonut(data, pieParams, sortCB = null): void {
-        let feature  = this.isPieChart ? this.base['pie-feature'] : this.base.feature;
+        let feature  = this.isPieChart ? this.base['feature'] : this.base.feature;
         let padAngle = this.isPieChart ? pieParams.padAngle : 0;
         this.color   = d3.scale.category20();
 
@@ -152,7 +152,7 @@ export class DonutChartComponent extends ChartBase {
         // function arcTween(a) {
         //     let i = d3.interpolate(this.beginData, a);
         //     this.beginData = i(0);
-        //     return t => this.arc(i(t))
+        //     return (t) => this.arc(i(t))
         //     // function(t) {
         //     //   return this.arc(i(t));
         //     // }.bind(this);

@@ -83,7 +83,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
     }
 
     getData(): void {
-        this.subc = this.service.getData().subscribe(rawData => {
+        this.subc = this.service.getData().subscribe( (rawData) => {
             this.data = Utility.clone(rawData);
             this.base = this.data.base;
             this.nextTick( () => this.render(this.data) );
@@ -132,7 +132,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
     checkAllEnd(transition, callback): void {
         let n = 0;
         transition
-            .each(() => { ++n; })
+            .each( () => { ++n; } )
             .each('end', function () {
                 if (!--n) {
                     callback.apply(this, arguments);
@@ -311,7 +311,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
 
     /// Init the dataSet and dataMap for showing string axis ticks and theme color
     protected checkData(data: Array<any>): void {
-        data.forEach(d => {
+        data.forEach( (d) => {
             /***********************************************
                 Uncomment this when need moving the whole 
                 domain for axis to limit data in the range of canvas.
@@ -374,7 +374,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
 
     protected groupData(data: Array<any>): void {
         this.groupedData = {};
-        data.forEach(d => {
+        data.forEach( (d) => {
             /// Group by name for line charts
             let groupingTarget = undefined !== d[`${this.groupAxisTarget}-format`]
                 ? d[`${this.groupAxisTarget}-format`]
@@ -441,13 +441,13 @@ export class ChartBase implements AfterViewInit, OnDestroy {
             if (!this.ticks[target].includes(i)) { this.ticks[target].push(i); }
         }
         // Sort for correctly display grids
-        this.ticks[target].sort((a, b) => a - b);
+        this.ticks[target].sort( (a, b) => a - b );
         if (i > max) { this.ticks[target].length -= 1; }
 
         this.axis[target].tickValues(this.ticks[target]);
 
         // Change tick format if global format was defined
-        let tickFormat = d => {
+        let tickFormat = (d) => {
             let result = this.tickLabelMap[alteredTarget].get(d);
             if (undefined === result) {
                 result = undefined !== base.format
@@ -591,7 +591,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
         this.domain[target] = this.isDomainFixed(axis) ?
             axis.ticks.domain
             :
-            d3.extent(data, d => d[`${theOther}Data`]);
+            d3.extent(data, (d) => d[`${theOther}Data`]);
         let param = this.getPaddingParams(target, [...this.domain[target]]); // Make a new array from 'domain'
         //  ---  A bug for ES6 syntax in Typescript: spread operator(...) didn't work correctly  ---
         // let scaledDomain = this.scaleDomain(...param);

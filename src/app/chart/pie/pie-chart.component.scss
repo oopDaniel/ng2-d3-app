@@ -1,7 +1,16 @@
 @import './../../shared/colors.scss';
 @import './../../shared/mixins.scss';
 
-.donut-chart {
+
+
+
+.pie-chart {
+    .pie-text {
+        text-anchor: middle;
+        font-size: 1.2em;
+        // font-family: Roboto;
+        fill: $text-default;
+    }
     .arc {
         &.theme1 {
             @include svg-color($theme1);

@@ -14,7 +14,7 @@ export class ComparedDonutChartService extends DonutChartService {
         data.base.feature.threshold = 30;
 
         let index = this.getRandInt(1, 0);
-        data.data[index]   = {
+        data.data[index] = {
             name:  this.getRandName(),
             yData: this.getRandInt(300)
         };

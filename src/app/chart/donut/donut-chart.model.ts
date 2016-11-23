@@ -10,8 +10,8 @@ export interface DonutChartData {
 export interface DonutChartModel {
     base: ChartBaseModel & {
         feature: {
-            thickness:          number;
-            angle: {
+            thickness?:          number;
+            angle?: {
                 start:          number; // 0
                 total:          number; // 2 * Math.PI,
             };

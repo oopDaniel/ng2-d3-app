@@ -171,7 +171,7 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
     private textTween(end: string, target, isTotalNeedToAppend = false) {
         let appendix = isTotalNeedToAppend ? 'Total: ' : '';
         let i = d3.interpolate(0, +end);
-        return t => target.text(appendix + this.eliminateDecimal(i(t)));
+        return (t) => target.text(appendix + this.eliminateDecimal(i(t)));
     }
 
     private getSum(data: any[]): number {
