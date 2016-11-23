@@ -1,5 +1,13 @@
-import { Component } from '@angular/core';
-import { DonutChartService } from './chart/donut/donut-chart.service';
+import {
+    Component,
+    OnInit,
+} from '@angular/core';
+
+import { DonutChartService }         from './chart/donut/donut-chart';
+import { ComparedDonutChartService } from './chart/compared-donut/compared-donut-chart';
+import { PieChartService }           from './chart/pie/pie-chart';
+
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -8,19 +16,46 @@ import { DonutChartService } from './chart/donut/donut-chart.service';
         // {provide: 'Donut', useExisting: DonutChartService}
     ]
 })
-export class AppComponent {
-    title = 'D3 app works!';
+export class AppComponent implements OnInit {
+    private availableCharts: string[];
+    private current: string;
+    private currentService;
+    
+    charts = {
+        Donut:              this.donut,
+        'Compared Donut':   this.cDonut,
+        Pie:                this.pie,
+    };
 
-    constructor(private chart: DonutChartService) {}
+    constructor(
+        private donut:  DonutChartService,
+        private cDonut: ComparedDonutChartService,
+        private pie:    PieChartService
+    ) {}
+
+
+    ngOnInit(): void {
+        this.availableCharts = Object.keys(this.charts);
+        this.current         = this.availableCharts[0];
+        this.currentService  = this.charts[this.current];
+    }
+
+    select(target: string): void {
+        console.log(`${target} was selected`);
+
+        this.connect();
+        this.current        = target;
+        this.currentService = this.charts[target];
+    }
 
     connect(): void {
-        this.chart.connect();
+        this.currentService.connect();
     }
     disconnect(): void {
-        this.chart.disconnect();
+        this.currentService.disconnect();
     }
 
     next(): void {
-        this.chart.nextData();
+        this.currentService.nextData();
     }
 }

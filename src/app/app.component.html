@@ -1,16 +1,14 @@
-<h1>
-  {{title}}
-</h1>
+<chart-switcher [charts]="availableCharts" (selected)="select($event)"></chart-switcher>
 
-<section style="width:600px;height:400px">
-  <app-donut-chart></app-donut-chart>
+<section *ngIf="'Donut' === current">
+  <donut-chart></donut-chart>
 </section>
 
-<section style="width:600px;height:400px">
-  <app-compared-donut-chart></app-compared-donut-chart>
+<section *ngIf="'Compared Donut' === current">
+  <compared-donut-chart></compared-donut-chart>
 </section>
 
-<section style="width:600px;height:400px">
+<section *ngIf="'Pie' === current">
   <pie-chart></pie-chart>
 </section>
 

@@ -1,6 +1,4 @@
-import { ChartBaseModel } from './../chart-base.model';
 import { DonutChartModel } from './../donut/donut-chart.model';
-
 
 export interface PieChartModel extends DonutChartModel {
     feature: {

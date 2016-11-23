@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ChartModule } from './chart/chart.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ChartModule } from './chart/chart.module';
     FormsModule,
     HttpModule,
     ChartModule,
+    CoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -13,8 +13,7 @@ import { ComparedDonutChartService }    from './compared-donut-chart.service';
 @Component({
     encapsulation: ViewEncapsulation.None,
     template: '',
-    selector: 'app-compared-donut-chart',
-    providers: [ComparedDonutChartService],
+    selector: 'compared-donut-chart',
     styleUrls: ['./compared-donut-chart.component.scss']
 })
 export class ComparedDonutChartComponent extends DonutChartComponent {
@@ -95,11 +94,11 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
         totalStr: string  = this.totalStr): void {
 
         let hasAnimate: boolean = this.hasAnimate();
-        let appendedCenterStr = hasAnimate 
-            ? 0 
+        let appendedCenterStr = hasAnimate
+            ? 0
             : centerStr;
-        let appendedTotalStr  = hasAnimate && !this.hasTotalTextTweened 
-            ? 0 
+        let appendedTotalStr  = hasAnimate && !this.hasTotalTextTweened
+            ? 0
             : totalStr;
 
         this.offsetCanvas.selectAll('.text').remove();

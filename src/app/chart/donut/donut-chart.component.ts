@@ -19,7 +19,7 @@ const ClassName = new OpaqueToken('DonutChart');
 @Component({
     encapsulation:  ViewEncapsulation.None,
     template:       '',
-    selector:       'app-donut-chart',
+    selector:       'donut-chart',
     styleUrls:      ['donut-chart.component.scss'],
     providers:      [
         { provide: ClassName, useValue: 'donut-chart' }

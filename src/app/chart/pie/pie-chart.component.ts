@@ -1,4 +1,4 @@
-import { 
+import {
     Component,
     ElementRef,
     ViewEncapsulation
@@ -17,7 +17,6 @@ import { PieChartModel }            from './pie-chart.model';
     template:  '',
     styleUrls: ['./pie-chart.component.scss'],
     selector:  'pie-chart',
-    providers: [PieChartService],
 })
 export class PieChartComponent extends DonutChartComponent {
 
@@ -40,11 +39,13 @@ export class PieChartComponent extends DonutChartComponent {
         super.render(data, pieParam);
 
         let hasLabel = feature && undefined !== feature.label;
-        if (hasLabel) this.showText(data.data);
+        if (hasLabel) {
+            this.showText(data.data);
+        }
     }
 
 
-//-------------           Private               -------------
+// -------------           Private               -------------
 
 
     private showText(data): void {
@@ -61,19 +62,19 @@ export class PieChartComponent extends DonutChartComponent {
         textUpdate.enter().append('text')
             .attr('class', 'pie-text');
 
-        this.nextTick( ()=> {
+        this.nextTick( () => {
             textUpdate.transition().duration(feature.animation.duration || 100)
                 .attr('transform', (d) => {
                     d.percentage = this.getPercentage(d.value, total);
-                    let scaleFactor = d.percentage > threshold 
-                        ? 1 
+                    let scaleFactor = d.percentage > threshold
+                        ? 1
                         : scale;
-                    let arr = this.arc.centroid(d)
-                        .map( (d) => d * scaleFactor );
+                    // let arr = this.arc.centroid(d)
+                    //     .map( (d) => d * scaleFactor );
                     return this.getScaledTranslate(d, threshold, scaleFactor);
                 })
-                .text( (d) => d.percentage > hide 
-                    ? `${d.percentage}%` 
+                .text( (d) => d.percentage > hide
+                    ? `${d.percentage}%`
                     : '' );
         });
 
@@ -85,17 +86,18 @@ export class PieChartComponent extends DonutChartComponent {
         let isUnderThreshold: boolean = d.percantage >= threshold;
 
         // To properly display, increase the factor if the angle of slice was in 90° ~ 180°
-        let shouldFixTranslate: boolean = d.startAngle > pi / 2 ||  
+        let shouldFixTranslate: boolean = d.startAngle > pi / 2 ||
             d.startAngle < 2 * pi - pi / 2;
 
-        scaleFactor =  isUnderThreshold 
+        scaleFactor = isUnderThreshold
             ? 1
-            : shouldFixTranslate 
+            : shouldFixTranslate
                 ? 1.05 * scaleFactor
                 : scaleFactor;
 
-        let coordinate = this.arc.centroid(d).map( (d) => d * scaleFactor );
-        return `translate(${coordinate})`
+        let coordinate = this.arc.centroid(d)
+            .map( (d) => d * scaleFactor );
+        return `translate(${coordinate})`;
     }
 
     private getPercentage(value: number, total: number): number {

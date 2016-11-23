@@ -1,0 +1,14 @@
+<section>
+    <button 
+        class="switch-btn" 
+        (click)="showOptions()"
+        #switchBtn>
+        Switch Chart
+    </button>
+
+    <template [ngIf]="shouldShowOpts">
+        <div *ngFor="let chart of charts">
+            <span class="option" (click)="select(chart)">{{chart}}</span>
+        </div>
+    </template>
+</section>

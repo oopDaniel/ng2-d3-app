@@ -1,2 +1,2 @@
-export * from './pie-chart.component'
-export * from './pie-chart.service'
+export * from './pie-chart.component';
+export * from './pie-chart.service';
