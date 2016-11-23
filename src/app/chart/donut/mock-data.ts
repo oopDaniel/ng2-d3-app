@@ -2,19 +2,18 @@ import { ChartAxisPosition }    from './../chart-base.model';
 import { DonutChartAnimation }  from './donut-chart.model';
 
 export const MOCK_DATA = {
-    base: {
-        'feature': {
-            'thickness': 20,
-            'angle': {
-                'start': 0,
-                'total': 2 * Math.PI,
-            },
-            'animation': {
-                'type': DonutChartAnimation.Spin,
-                'duration': 700,
-            }
+    'feature': {
+        'thickness': 20,
+        'angle': {
+            'start': 0,
+            'total': 2 * Math.PI,
         },
-
+        'animation': {
+            'type': DonutChartAnimation.Spin,
+            'duration': 700,
+        }
+    },
+    base: {
         xAxis: {
             'position': ChartAxisPosition.Hidden,
             'height': 30,

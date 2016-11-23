@@ -91,7 +91,7 @@ export class DonutChartComponent extends ChartBase {
         /// Default as pie chart => innerRadius = 0
         let thickness = this.isPieChart
             ? this.outerRadius
-            : this.base.feature && this.base.feature.thickness || this.outerRadius;
+            : this.feature && this.feature.thickness || this.outerRadius;
 
         let isValidInnerRadius = this.outerRadius - thickness >= 0;
         if (!isValidInnerRadius) {
@@ -112,14 +112,13 @@ export class DonutChartComponent extends ChartBase {
     }
 
     protected showDonut(data, pieParams, sortCB = null): void {
-        let feature  = this.isPieChart ? this.base['feature'] : this.base.feature;
         let padAngle = this.isPieChart ? pieParams.padAngle : 0;
         this.color   = d3.scale.category20();
 
         this.pie = d3.layout.pie()
             .value( (d) => d['yData'] )
-            .startAngle(feature.angle && feature.angle.start || 0 )
-            .endAngle(  feature.angle && feature.angle.total || 2 * Math.PI )
+            .startAngle(this.feature.angle && this.feature.angle.start || 0 )
+            .endAngle(  this.feature.angle && this.feature.angle.total || 2 * Math.PI )
             .padAngle(padAngle)
             .sort(sortCB);    // Default not sorting
 
@@ -127,7 +126,7 @@ export class DonutChartComponent extends ChartBase {
             .outerRadius(this.outerRadius)
             .innerRadius(this.innerRadius);
 
-        if (!this.hasAnimate(feature)) {
+        if (!this.hasAnimate()) {
             this.offsetCanvas.selectAll('.arc').remove();
         }
 
@@ -138,12 +137,12 @@ export class DonutChartComponent extends ChartBase {
         this.drawDonut();
         this.applyThemeColor();
 
-        if (this.hasAnimate(feature)) {
+        if (this.hasAnimate()) {
             this.nextTick( () => {
                 this.update.exit().remove();
                 this.update
                     .transition()
-                    .duration(feature.animation.duration || 100)
+                    .duration(this.feature.animation.duration || 100)
                     .attrTween('d', (args) => this.arcTween(args));
                     // .attrTween('d', (args) => arcTween.apply(self, [args]))  // ES5 case
             });

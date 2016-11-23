@@ -1,9 +1,13 @@
-import { Component, ElementRef, ViewEncapsulation }    from '@angular/core';
+import { 
+    Component,
+    ElementRef,
+    ViewEncapsulation
+} from '@angular/core';
 
-import * as d3 from 'd3';
+import * as d3                      from 'd3';
 import { DonutChartComponent }      from './../donut/donut-chart.component';
-import { PieChartService } from './pie-chart.service';
-import { PieChartModel } from './pie-chart.model';
+import { PieChartService }          from './pie-chart.service';
+import { PieChartModel }            from './pie-chart.model';
 
 
 
@@ -29,7 +33,7 @@ export class PieChartComponent extends DonutChartComponent {
             return;
         }
 
-        let feature  = data.base.feature,
+        let feature  = data.feature,
             padAngle = feature.angle && feature.angle.padding || 0,
             pieParam = { padAngle };
 
@@ -45,7 +49,7 @@ export class PieChartComponent extends DonutChartComponent {
 
     private showText(data): void {
         let total     = this.getSum(data),
-            feature   = this.base.feature,
+            feature   = this.feature,
             threshold = feature.label.threshold       || 0,
             scale     = feature.label.scaleFactor     || 2,
             hide      = feature.label.hideSmall       || 0;  // Default show small angles
@@ -95,7 +99,7 @@ export class PieChartComponent extends DonutChartComponent {
     }
 
     private getPercentage(value: number, total: number): number {
-        return Number(d3.format(this.base.feature.label.format)(value / total * 100));
+        return Number(d3.format(this.feature.label.format)(value / total * 100));
     }
 
     private getSum(data: any[]): number {

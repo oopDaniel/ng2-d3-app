@@ -94,11 +94,13 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
         centerStr: string = this.centerStr,
         totalStr: string  = this.totalStr): void {
 
-        let feature             = this.base.feature;
-        let hasAnimate: boolean = this.hasAnimate(feature);
-
-        let appendedCenterStr = hasAnimate ? 0 : centerStr;
-        let appendedTotalStr  = hasAnimate && !this.hasTotalTextTweened ? 0 : totalStr;
+        let hasAnimate: boolean = this.hasAnimate();
+        let appendedCenterStr = hasAnimate 
+            ? 0 
+            : centerStr;
+        let appendedTotalStr  = hasAnimate && !this.hasTotalTextTweened 
+            ? 0 
+            : totalStr;
 
         this.offsetCanvas.selectAll('.text').remove();
         let textGroup = this.offsetCanvas.append('g')
@@ -114,7 +116,7 @@ export class ComparedDonutChartComponent extends DonutChartComponent {
             .text(`Total: ${appendedTotalStr}`);
 
         if (hasAnimate) {
-            let duration = feature.animation.duration;
+            let duration = this.feature.animation.duration || 100;
             centerText
                 .transition()
                 .ease('quad-out')

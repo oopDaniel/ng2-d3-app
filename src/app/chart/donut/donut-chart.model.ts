@@ -8,19 +8,19 @@ export interface DonutChartData {
 };
 
 export interface DonutChartModel {
-    base: ChartBaseModel & {
-        feature: {
-            thickness?:          number;
-            angle?: {
-                start:          number; // 0
-                total:          number; // 2 * Math.PI,
-            };
-            animation?: {
-                type:           DonutChartAnimation,
-                duration:       number;
-            };
+    feature: {
+        thickness?:         number;
+        threshold?:         number; /// Used by compared-donut
+        angle?: {
+            start?:          number; // 0
+            total?:          number; // 2 * Math.PI,
+        };
+        animation?: {
+            type?:           DonutChartAnimation,
+            duration?:       number;
         };
     };
+    base: ChartBaseModel;
     data: DonutChartData[];
 };
 

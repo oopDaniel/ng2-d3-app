@@ -11,7 +11,7 @@ import {
 export class ComparedDonutChartService extends DonutChartService {
     getMockData(mockData = MOCK_DATA): DonutChartModel {
         let data: DonutChartModel = Utility.clone(mockData);
-        data.base.feature.threshold = 30;
+        data.feature.threshold = 30;
 
         let index = this.getRandInt(1, 0);
         data.data[index] = {

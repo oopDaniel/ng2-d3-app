@@ -29,6 +29,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
 
     protected data:             any;
     protected base:             ChartBaseModel;             // Global base
+    protected feature:          any;
     protected groupedData:      any;                        // Separated data grouping by name
     protected groupAxisTarget:  string;                     // 'x' / 'y', normally 'x'
     protected dataSet:          Set<any> = new Set();       // Filter duplicate data
@@ -84,8 +85,9 @@ export class ChartBase implements AfterViewInit, OnDestroy {
 
     getData(): void {
         this.subc = this.service.getData().subscribe( (rawData) => {
-            this.data = Utility.clone(rawData);
-            this.base = this.data.base;
+            this.data    = Utility.clone(rawData);
+            this.base    = this.data.base;
+            this.feature = this.data.feature;
             this.nextTick( () => this.render(this.data) );
         });
     }
@@ -163,7 +165,7 @@ export class ChartBase implements AfterViewInit, OnDestroy {
     protected isDomainFixed(axis): boolean {
         return undefined !== (axis.ticks && axis.ticks.domain);
     }
-    protected hasAnimate(feature): boolean {
+    protected hasAnimate(feature = this.feature): boolean {
         return feature && undefined !== feature.animation;
     }
 

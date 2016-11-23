@@ -42,8 +42,6 @@ export interface ChartBoundaryItem {
 };
 
 export interface ChartBaseModel {
-    feature?:              any;                  // specific chart
-
     xAxis: {
         position:          ChartAxisPosition;    // bottom
         height?:           number;
