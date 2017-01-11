@@ -178,7 +178,9 @@ export class ChartBase implements AfterViewInit, OnDestroy {
         this.initLayout(this.base);
         this.initScale(data.data);
         this.initAxis();
-        this.checkData(data.data);
+
+        // Mutate the original array
+        this.checkData(data);
 
     }
 
@@ -312,8 +314,8 @@ export class ChartBase implements AfterViewInit, OnDestroy {
     }
 
     /// Init the dataSet and dataMap for showing string axis ticks and theme color
-    protected checkData(data: Array<any>): void {
-        data.forEach( (d) => {
+    protected checkData(data: any): void {
+        data.data.forEach( (d) => {
             /***********************************************
                 Uncomment this when need moving the whole 
                 domain for axis to limit data in the range of canvas.
@@ -333,11 +335,11 @@ export class ChartBase implements AfterViewInit, OnDestroy {
                 : d.name;
             this.dataSet.add(themeColorEntity);
 
-        });
+      });
 
-        if (this.need2GroupData) {
-            this.groupData(data);
-        }
+      if (this.need2GroupData) {
+          data.data = this.groupData(data.data);
+      }
 
         // Sorting for right display in order for line-based charts
         // if (this.isDataNeed2Group) {
@@ -352,10 +354,10 @@ export class ChartBase implements AfterViewInit, OnDestroy {
      *  Replace the labels that has special format assigned
      */
     protected checkStringLabel(data): void {
-        if (!this.isStringLabel.x && undefined !== data[`x-format`]) {
+        if (!this.isStringLabel.x && undefined !== data.xFormat) {
             this.isStringLabel.x = true;
         }
-        if (!this.isStringLabel.y && undefined !== data[`y-format`]) {
+        if (!this.isStringLabel.y && undefined !== data.yFormat) {
             this.isStringLabel.y = true;
         }
         if (!this.groupAxisTarget) {
@@ -366,26 +368,33 @@ export class ChartBase implements AfterViewInit, OnDestroy {
                     : '';
         }
 
-        if (data[`x-format`]) {
+        if (data.xFormat) {
             this.tickLabelMap.x.set(data.xData, data.xFormat);
         }
-        if (data[`y-format`]) {
+        if (data.yFormat) {
             this.tickLabelMap.y.set(data.yData, data.yFormat);
         }
     }
 
-    protected groupData(data: Array<any>): void {
+    protected groupData(data: any[]): any[] {
         this.groupedData = {};
         data.forEach( (d) => {
             /// Group by name for line charts
-            let groupingTarget = undefined !== d[`${this.groupAxisTarget}-format`]
-                ? d[`${this.groupAxisTarget}-format`]
+            let groupingTarget = undefined !== d[`${this.groupAxisTarget}Format`]
+                ? d[`${this.groupAxisTarget}Format`]
                 : d.name;
             if (!this.groupedData[groupingTarget]) {
                 this.groupedData[groupingTarget] = [];
             }
             this.groupedData[groupingTarget].push(d);
         });
+
+        /// Group the data, will mutate the original array
+        let sortedData = [];
+        Object.keys(this.groupedData)
+            .forEach(groupName => sortedData = [...sortedData, ...this.groupedData[groupName]] );
+
+        return sortedData;
     }
 
     protected renderAxisWithStep(target: string): void {

@@ -12,6 +12,10 @@
   <pie-chart></pie-chart>
 </section>
 
+<section *ngIf="'Bar' === current">
+  <bar-chart></bar-chart>
+</section>
+
 <button (click)="next()">Next One</button>
 <button (click)="disconnect()">Stop!</button>
 <button (click)="connect()">Restore Connection</button>

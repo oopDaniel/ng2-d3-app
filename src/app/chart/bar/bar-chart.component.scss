@@ -1,0 +1,22 @@
+@import './../../shared/colors.scss';
+
+.bar {
+    &.theme1 {
+        fill: $theme1;
+        &:hover {
+            fill: darken($theme1, 20%);
+        }
+    }
+    &.theme2 {
+        fill: $theme2;
+        &:hover {
+            fill: darken($theme2, 20%);
+        }
+    }
+    &.theme3 {
+        fill: $theme3;
+        &:hover {
+            fill: darken($theme3, 20%);
+        }
+    }
+}

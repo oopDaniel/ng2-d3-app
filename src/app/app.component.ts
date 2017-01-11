@@ -6,6 +6,7 @@ import {
 import { DonutChartService }         from './chart/donut/donut-chart';
 import { ComparedDonutChartService } from './chart/compared-donut/compared-donut-chart';
 import { PieChartService }           from './chart/pie/pie-chart';
+import { BarChartService }           from './chart/bar/bar-chart';
 
 
 @Component({
@@ -25,12 +26,14 @@ export class AppComponent implements OnInit {
         Donut:              this.donut,
         'Compared Donut':   this.cDonut,
         Pie:                this.pie,
+        Bar:                this.bar,
     };
 
     constructor(
         private donut:  DonutChartService,
         private cDonut: ComparedDonutChartService,
-        private pie:    PieChartService
+        private pie:    PieChartService,
+        private bar:    BarChartService,
     ) {}
 
 

@@ -16,22 +16,30 @@ import {
     PieChartService,
 } from './pie/pie-chart';
 
+import {
+    BarChartComponent,
+    BarChartService,
+} from './bar/bar-chart';
+
 @NgModule({
     imports: [CommonModule],
     declarations: [
         DonutChartComponent,
         ComparedDonutChartComponent,
-        PieChartComponent
+        PieChartComponent,
+        BarChartComponent,
     ],
     exports: [
         DonutChartComponent,
         ComparedDonutChartComponent,
         PieChartComponent,
+        BarChartComponent,
     ],
     providers: [
         DonutChartService,
         ComparedDonutChartService,
         PieChartService,
+        BarChartService,
     ]
 })
 export class ChartModule { }
