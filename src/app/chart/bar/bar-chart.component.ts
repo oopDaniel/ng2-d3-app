@@ -161,12 +161,13 @@ export class BarChartComponent extends ChartBase {
         let delayFactor = animateBase.delay || 100,
             ease        = animateBase.ease  || 'linear';
 
-        let isAniateGrow: boolean = animateBase.type === BarChartAnimation.Grow,
-            delay = isAniateGrow ? 0 : (d,i) => i * delayFactor;
+        let isAniateGrow: boolean = animateBase.type === BarChartAnimation.Grow;
+        let delay    = isAniateGrow ? 0 : (d, i) => i * delayFactor;
+        let duration = Math.min(this.data.data.length * delayFactor, 1000);
 
         bars.attr(attr)
             .transition()
-            .duration(delay)
+            .duration(duration)
             .ease(ease)
             .delay(delay)
             .attr(endAttr);

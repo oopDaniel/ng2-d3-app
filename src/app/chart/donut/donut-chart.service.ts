@@ -18,6 +18,8 @@ export class DonutChartService extends ChartService<DonutChartModel> {
             });
         }
 
+        data.feature.animation.type = ~~(Math.random() * 2);
+
         return data;
     }
 
